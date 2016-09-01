@@ -24,3 +24,33 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
 }
+
+apply plugin: 'findbugs'
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+    description 'Run findbugs'
+    group 'verification'
+
+    classes = fileTree(dir: rootProject.projectDir,
+            includes: ['*/build/intermediates/classes/**/*.class'],
+            exclude: '**/*test*/**')
+
+    source = fileTree(dir: rootProject.projectDir,
+            includes: ['*/src/**/jp/tokushima/tatsuhama/**/*.java'],
+            exclude: '**/*test*/**')
+
+    classpath = files()
+
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/exclude.xml")
+
+    reports {
+        xml.enabled = true
+        xml.withMessages = true
+        html.enabled = false
+    }
+
+    effort = 'max'
+    reportLevel = 'low'
+
+    ignoreFailures = true
+}
