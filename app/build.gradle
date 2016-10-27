@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 24
@@ -17,12 +18,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 apply plugin: 'findbugs'
@@ -36,12 +41,13 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
             exclude: '**/*test*/**')
 
     source = fileTree(dir: rootProject.projectDir,
-            includes: ['*/src/**/jp/tokushima/tatsuhama/**/*.java'],
+            includes: ['*/src/**/jp/tokushima/tatsuhama/**/*.java', '*/src/**/jp/tokushima/tatsuhama/**/*.kt'],
             exclude: '**/*test*/**')
 
     classpath = files()
 
     excludeFilter = file("$rootProject.projectDir/config/findbugs/exclude.xml")
+    includeFilter = file("$rootProject.projectDir/config/findbugs/include.xml")
 
     reports {
         xml.enabled = true
@@ -53,4 +59,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     reportLevel = 'low'
 
     ignoreFailures = true
+}
+repositories {
+    mavenCentral()
 }
