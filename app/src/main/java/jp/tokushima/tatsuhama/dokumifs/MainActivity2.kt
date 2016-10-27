@@ -9,9 +9,14 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         HOGE()
+        HUGA()
     }
 
     private fun HOGE(): String {
         return "HOGE"
+    }
+
+    private fun HUGA(): String {
+        return "HUGA"
     }
 }
