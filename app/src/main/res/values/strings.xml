@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DokumiFS</string>
+    <string name="unused_string">unused_string</string>
 </resources>
